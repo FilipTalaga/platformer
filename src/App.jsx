@@ -26,7 +26,9 @@ function playGame(canvas) {
     const render = () => {
         drawer.clear();
         drawer.renderBackground();
-        drawer.renderObstacle(game.obstacle.x, game.obstacle.y, game.obstacle.width, game.obstacle.height);
+        game.obstacles.forEach(obstacle => {
+            drawer.renderObstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        });
         drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);
     }
 
@@ -48,9 +50,27 @@ function playGame(canvas) {
     //     Arrange entities with given coordinates                                                 //
     // ------------------------------------------------------------------------------------------- //
 
-    game.obstacle.x = Math.floor(canvas.width / 2 - game.obstacle.width / 2);
-    game.obstacle.y = Math.floor(canvas.height * 0.7);
+    // Floor
+    game.obstacles[0].x = Math.floor(canvas.width / 2 - game.obstacles[0].width / 2);
+    game.obstacles[0].y = Math.floor(canvas.height * 0.7);
 
+    // Wall
+    game.obstacles[1].x = game.obstacles[0].x + game.obstacles[0].width - game.obstacles[1].width;
+    game.obstacles[1].y = game.obstacles[0].y - game.obstacles[1].height;
+
+    // Step 1
+    game.obstacles[2].x = game.obstacles[0].x + 100;
+    game.obstacles[2].y = game.obstacles[1].y + 100;
+
+    // Step 2
+    game.obstacles[3].x = game.obstacles[0].x + 200;
+    game.obstacles[3].y = game.obstacles[1].y + 250;
+
+    // Step 3
+    game.obstacles[4].x = game.obstacles[0].x + 300;
+    game.obstacles[4].y = game.obstacles[1].y + 400;
+
+    // Player
     game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);
     game.player.y = Math.floor(canvas.height * 0.3);
 
