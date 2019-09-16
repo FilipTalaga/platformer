@@ -12,7 +12,9 @@ function makeGame() {
         height: 50,
         movingLeft: false,
         movingRight: false,
-        movingUp: false,
+        jumping: false,
+        inJump: false,
+        fallSpeed: 0,
     };
 
     const obstacle = {
@@ -23,23 +25,35 @@ function makeGame() {
     };
 
     const updatePlayerPosition = distance => {
-        if (player.movingUp) {
-            const futurePlayer = { ...player, y: player.y - distance };
+        /* Move up if jump pressed or if already in jump */
+        if (player.jumping || player.inJump) {
+            if (!player.inJump) {
+                player.inJump = true;
+            }
+            const futurePlayer = { ...player, y: player.y - distance * 2 };
             player.y = willCollide(futurePlayer, obstacle) ? obstacle.y + obstacle.height : futurePlayer.y;
         }
 
+        /* Move left if left pressed */
         if (player.movingLeft) {
             const futurePlayer = { ...player, x: player.x - distance };
             player.x = willCollide(futurePlayer, obstacle) ? obstacle.x + obstacle.width : futurePlayer.x;
         }
 
+        /* Move right if right pressed */
         if (player.movingRight) {
             const futurePlayer = { ...player, x: player.x + distance };
             player.x = willCollide(futurePlayer, obstacle) ? obstacle.x - player.width : futurePlayer.x;
         }
 
-        const futurePlayer = { ...player, y: player.y + distance / 2 };
+        /* Move down with gravity */
+        const futurePlayer = { ...player, y: player.y + Math.floor(player.fallSpeed / 5) };
+        if (willCollide(futurePlayer, obstacle)) {
+            player.fallSpeed = 0;
+            player.inJump = false;
+        }
         player.y = willCollide(futurePlayer, obstacle) ? obstacle.y - player.height : futurePlayer.y;
+        player.fallSpeed += 1;
     }
 
     return {

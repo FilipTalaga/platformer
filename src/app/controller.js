@@ -1,8 +1,8 @@
-function makeController(resize, startLeft, stopLeft, startRight, stopRight, startUp, stopUp) {
+function makeController(resize, startLeft, stopLeft, startRight, stopRight, startJump, stopJump) {
     document.onkeydown = e => {
         e = e || window.event;
 
-        if (e.keyCode === 38) { startUp(); }
+        if (e.keyCode === 38) { startJump(); }
         else if (e.keyCode === 37) { startLeft(); }
         else if (e.keyCode === 39) { startRight(); }
     }
@@ -10,7 +10,7 @@ function makeController(resize, startLeft, stopLeft, startRight, stopRight, star
     document.onkeyup = e => {
         e = e || window.event;
 
-        if (e.keyCode === 38) { stopUp(); }
+        if (e.keyCode === 38) { stopJump(); }
         else if (e.keyCode === 37) { stopLeft(); }
         else if (e.keyCode === 39) { stopRight(); }
     }
