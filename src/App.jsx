@@ -15,8 +15,8 @@ function playGame(canvas) {
     const stopLeft = () => { game.player.movingLeft = false; };
     const startRight = () => { game.player.movingRight = true; };
     const stopRight = () => { game.player.movingRight = false; };
-    const startJump = () => { game.player.jumping = true; };
-    const stopJump = () => { game.player.jumping = false; };
+    const startJump = () => { game.player.startJump = true; };
+    const stopJump = () => { game.player.startJump = false; };
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 
     // ------------------------------------------------------------------------------------------- //
@@ -26,10 +26,10 @@ function playGame(canvas) {
     const render = () => {
         drawer.clear();
         drawer.renderBackground();
+        drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);
         game.obstacles.forEach(obstacle => {
             drawer.renderObstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
         });
-        drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);
     }
 
     const update = () => {

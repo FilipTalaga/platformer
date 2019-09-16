@@ -12,9 +12,9 @@ function makeGame() {
         height: 50,
         movingLeft: false,
         movingRight: false,
+        startJump: false,
         jumping: false,
-        inJump: false,
-        fallSpeed: 0,
+        velocity: 0,
     };
 
     const obstacles = [
@@ -26,35 +26,59 @@ function makeGame() {
     ];
 
     const updatePlayerPosition = distance => {
-        /* Move up if jump pressed or if already in jump */
-        if (player.jumping || player.inJump) {
-            if (!player.inJump) {
-                player.inJump = true;
-            }
-            const futurePlayer = { ...player, y: player.y - distance * 3 };
-            player.y = willCollide(futurePlayer, obstacles[0]) ? obstacles[0].y + obstacles[0].height : futurePlayer.y;
-        }
-
         /* Move left if left pressed */
         if (player.movingLeft) {
             const futurePlayer = { ...player, x: player.x - distance };
-            player.x = willCollide(futurePlayer, obstacles[0]) ? obstacles[0].x + obstacles[0].width : futurePlayer.x;
+
+            let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+
+            while (collisions.length > 0) {
+                futurePlayer.x = collisions[0].x + collisions[0].width;
+                collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+            }
+
+            player.x = futurePlayer.x;
         }
 
         /* Move right if right pressed */
         if (player.movingRight) {
             const futurePlayer = { ...player, x: player.x + distance };
-            player.x = willCollide(futurePlayer, obstacles[0]) ? obstacles[0].x - player.width : futurePlayer.x;
+
+            let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+
+            while (collisions.length > 0) {
+                futurePlayer.x = collisions[0].x - player.width;
+                collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+            }
+
+            player.x = futurePlayer.x;
         }
 
-        /* Move down with gravity */
-        const futurePlayer = { ...player, y: player.y + Math.floor(player.fallSpeed / 3) };
-        if (willCollide(futurePlayer, obstacles[0])) {
-            player.fallSpeed = 0;
-            player.inJump = false;
+        /* Move vertically, jump on up pressed, fall with gravity */
+        if (player.startJump && !player.jumping) {
+            player.velocity = -(distance * 10);
         }
-        player.y = willCollide(futurePlayer, obstacles[0]) ? obstacles[0].y - player.height : futurePlayer.y;
-        player.fallSpeed += 1;
+        const isPositive = player.velocity >= 0;
+        const roundedFallDistance = Math.floor(player.velocity / 5);
+        const futurePlayer = { ...player, y: player.y + (roundedFallDistance !== 0 ? roundedFallDistance : 1) };
+        player.velocity += 1;
+        player.jumping = true;
+
+        let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+
+        while (collisions.length > 0) {
+            if (isPositive) {
+                futurePlayer.y = collisions[0].y - player.height;
+                player.jumping = false;
+            } else {
+                futurePlayer.y = collisions[0].y + collisions[0].height;
+            }
+
+            player.velocity = 0;
+            collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+        }
+
+        player.y = futurePlayer.y;
     }
 
     return {
