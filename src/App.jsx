@@ -4,6 +4,8 @@ import makeGame from './app/game';
 import makeController from './app/controller';
 import makeEngine from './app/engine';
 
+const interval = 8;
+
 function playGame(canvas) {
     const startLeft = () => { game.player.movingLeft = true; };
     const stopLeft = () => { game.player.movingLeft = false; };
@@ -20,15 +22,15 @@ function playGame(canvas) {
     }
 
     const update = () => {
-        if (game.player.movingLeft) { game.player.x -= 4; }
-        if (game.player.movingRight) { game.player.x += 4; }
-        if (game.player.movingUp) { game.player.y -= 4; }
-        if (game.player.movingDown) { game.player.y += 4; }
+        if (game.player.movingLeft) { game.player.x -= interval / 2; }
+        if (game.player.movingRight) { game.player.x += interval / 2; }
+        if (game.player.movingUp) { game.player.y -= interval / 2; }
+        if (game.player.movingDown) { game.player.y += interval / 2; }
     }
 
     const game = makeGame();
     const drawer = makeDrawer(canvas);
-    const engine = makeEngine(render, update, 8);
+    const engine = makeEngine(render, update, interval);
 
     engine.start();
     makeController(startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown);
