@@ -19,6 +19,7 @@ function playGame(canvas) {
     const stopUp = () => { game.player.movingUp = false; };
     const startDown = () => { game.player.movingDown = true; };
     const stopDown = () => { game.player.movingDown = false; };
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 
     // ------------------------------------------------------------------------------------------- //
     //     Render and update functions that will be executed periodically by engine                //
@@ -44,17 +45,17 @@ function playGame(canvas) {
     const game = makeGame();
     const drawer = makeDrawer(canvas);
     const engine = makeEngine(render, update, interval);
-    makeController(startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown);
+    makeController(resize, startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown);
 
     // ------------------------------------------------------------------------------------------- //
     //     Arrange entities with given coordinates                                                 //
     // ------------------------------------------------------------------------------------------- //
 
-    game.obstacle.x = canvas.width / 2 - game.obstacle.width / 2;
-    game.obstacle.y = canvas.height * 0.7;
+    game.obstacle.x = Math.floor(canvas.width / 2 - game.obstacle.width / 2);
+    game.obstacle.y = Math.floor(canvas.height * 0.7);
 
-    game.player.x = canvas.width / 2 - game.player.width / 2;
-    game.player.y = canvas.height * 0.2;
+    game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);
+    game.player.y = Math.floor(canvas.height * 0.2);
 
     // ------------------------------------------------------------------------------------------- //
     //     Start the game and return stop function for cleanup                                     //
@@ -69,7 +70,7 @@ function App() {
 
     useEffect(() => playGame(canvasRef.current));
 
-    return <canvas ref={canvasRef} width="500" height="500" />;
+    return <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
 }
 
 export default App;

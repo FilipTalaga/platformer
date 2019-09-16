@@ -1,4 +1,4 @@
-function makeController(startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown) {
+function makeController(resize, startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown) {
     document.onkeydown = e => {
         e = e || window.event;
 
@@ -16,6 +16,8 @@ function makeController(startLeft, stopLeft, startRight, stopRight, startUp, sto
         else if (e.keyCode === 37) { stopLeft(); }
         else if (e.keyCode === 39) { stopRight(); }
     }
+
+    window.onresize = resize;
 }
 
 export default makeController;
