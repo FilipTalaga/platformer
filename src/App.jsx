@@ -24,6 +24,7 @@ function playGame(canvas) {
     // ------------------------------------------------------------------------------------------- //
 
     const render = () => {
+        drawer.clear();
         drawer.renderBackground();
         drawer.renderObstacle(game.obstacle.x, game.obstacle.y, game.obstacle.width, game.obstacle.height);
         drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);

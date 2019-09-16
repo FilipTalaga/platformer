@@ -1,6 +1,10 @@
 function makeDrawer(canvasRef) {
     const context = canvasRef.getContext('2d');
 
+    const clear = () => {
+        context.clearRect(0, 0, canvasRef.width, canvasRef.height);
+    }
+
     const renderBackground = () => {
         context.fillStyle = "#111";
         context.fillRect(0, 0, canvasRef.width, canvasRef.height);
@@ -17,8 +21,9 @@ function makeDrawer(canvasRef) {
     }
 
     return {
-        renderPlayer,
+        clear,
         renderBackground,
+        renderPlayer,
         renderObstacle
     }
 }
