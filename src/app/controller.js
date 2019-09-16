@@ -1,19 +1,20 @@
-function makeController(handleUp, handleDown, handleLeft, handleRight) {
+function makeController(startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown) {
     document.onkeydown = e => {
         e = e || window.event;
 
-        if (e.keyCode === 38) {
-            handleUp();
-        }
-        else if (e.keyCode === 40) {
-            handleDown();
-        }
-        else if (e.keyCode === 37) {
-            handleLeft();
-        }
-        else if (e.keyCode === 39) {
-            handleRight();
-        }
+        if (e.keyCode === 38) { startUp(); }
+        else if (e.keyCode === 40) { startDown(); }
+        else if (e.keyCode === 37) { startLeft(); }
+        else if (e.keyCode === 39) { startRight(); }
+    }
+
+    document.onkeyup = e => {
+        e = e || window.event;
+
+        if (e.keyCode === 38) { stopUp(); }
+        else if (e.keyCode === 40) { stopDown(); }
+        else if (e.keyCode === 37) { stopLeft(); }
+        else if (e.keyCode === 39) { stopRight(); }
     }
 }
 

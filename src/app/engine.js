@@ -1,4 +1,4 @@
-function makeEngine(render, update, interval = 1000 / 30) {
+function makeEngine(render, update, interval) {
     let renderRef = null;
     let lastTimestamp = 0;
 

@@ -5,27 +5,33 @@ import makeController from './app/controller';
 import makeEngine from './app/engine';
 
 function playGame(canvas) {
-    const up = () => { game.player.y -= 20; }
-    const down = () => { game.player.y += 20; }
-    const left = () => { game.player.x -= 20; }
-    const right = () => { game.player.x += 20; }
+    const startLeft = () => { game.player.movingLeft = true; };
+    const stopLeft = () => { game.player.movingLeft = false; };
+    const startRight = () => { game.player.movingRight = true; };
+    const stopRight = () => { game.player.movingRight = false; };
+    const startUp = () => { game.player.movingUp = true; };
+    const stopUp = () => { game.player.movingUp = false; };
+    const startDown = () => { game.player.movingDown = true; };
+    const stopDown = () => { game.player.movingDown = false; };
 
     const render = () => {
         drawer.renderBackground();
         drawer.renderPlayer(game.player.x, game.player.y);
-        console.log('render');
     }
 
     const update = () => {
-        console.log('update');
+        if (game.player.movingLeft) { game.player.x -= 10; }
+        if (game.player.movingRight) { game.player.x += 10; }
+        if (game.player.movingUp) { game.player.y -= 10; }
+        if (game.player.movingDown) { game.player.y += 10; }
     }
 
     const game = makeGame();
     const drawer = makeDrawer(canvas);
-    const engine = makeEngine(render, update);
+    const engine = makeEngine(render, update, 1000 / 60);
 
     engine.start();
-    makeController(up, down, left, right);
+    makeController(startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown);
 
     return engine.stop;
 }
