@@ -55,7 +55,7 @@ function playGame(canvas) {
     game.obstacle.y = Math.floor(canvas.height * 0.7);
 
     game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);
-    game.player.y = Math.floor(canvas.height * 0.2);
+    game.player.y = Math.floor(canvas.height * 0.3);
 
     // ------------------------------------------------------------------------------------------- //
     //     Start the game and return stop function for cleanup                                     //
