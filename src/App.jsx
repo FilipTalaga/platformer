@@ -20,15 +20,15 @@ function playGame(canvas) {
     }
 
     const update = () => {
-        if (game.player.movingLeft) { game.player.x -= 10; }
-        if (game.player.movingRight) { game.player.x += 10; }
-        if (game.player.movingUp) { game.player.y -= 10; }
-        if (game.player.movingDown) { game.player.y += 10; }
+        if (game.player.movingLeft) { game.player.x -= 4; }
+        if (game.player.movingRight) { game.player.x += 4; }
+        if (game.player.movingUp) { game.player.y -= 4; }
+        if (game.player.movingDown) { game.player.y += 4; }
     }
 
     const game = makeGame();
     const drawer = makeDrawer(canvas);
-    const engine = makeEngine(render, update, 1000 / 60);
+    const engine = makeEngine(render, update, 8);
 
     engine.start();
     makeController(startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown);
