@@ -1,4 +1,4 @@
-html, body {
+html, body, #root {
     margin: 0;
     height: 100%;
 }
@@ -13,4 +13,11 @@ body {
 
 * {
     box-sizing: border-box;
+}
+
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #111;
 }
