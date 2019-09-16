@@ -1,8 +1,7 @@
 function willCollide(player, obstacle) {
-    const vertical = player.y + player.height > obstacle.y && player.y < obstacle.y + obstacle.height;
-    const horizontal = player.x + player.width > obstacle.x && player.x < obstacle.x + obstacle.width;
-
-    return vertical && horizontal;
+    const vertically = player.y + player.height > obstacle.y && player.y < obstacle.y + obstacle.height;
+    const horizontally = player.x + player.width > obstacle.x && player.x < obstacle.x + obstacle.width;
+    return vertically && horizontally;
 }
 
 function makeGame() {
@@ -14,7 +13,6 @@ function makeGame() {
         movingLeft: false,
         movingRight: false,
         movingUp: false,
-        movingDown: false,
     };
 
     const obstacle = {
@@ -30,11 +28,6 @@ function makeGame() {
             player.y = willCollide(futurePlayer, obstacle) ? obstacle.y + obstacle.height : futurePlayer.y;
         }
 
-        if (player.movingDown) {
-            const futurePlayer = { ...player, y: player.y + distance };
-            player.y = willCollide(futurePlayer, obstacle) ? obstacle.y - player.height : futurePlayer.y;
-        }
-
         if (player.movingLeft) {
             const futurePlayer = { ...player, x: player.x - distance };
             player.x = willCollide(futurePlayer, obstacle) ? obstacle.x + obstacle.width : futurePlayer.x;
@@ -44,6 +37,9 @@ function makeGame() {
             const futurePlayer = { ...player, x: player.x + distance };
             player.x = willCollide(futurePlayer, obstacle) ? obstacle.x - player.width : futurePlayer.x;
         }
+
+        const futurePlayer = { ...player, y: player.y + distance / 2 };
+        player.y = willCollide(futurePlayer, obstacle) ? obstacle.y - player.height : futurePlayer.y;
     }
 
     return {

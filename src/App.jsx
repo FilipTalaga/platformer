@@ -17,8 +17,6 @@ function playGame(canvas) {
     const stopRight = () => { game.player.movingRight = false; };
     const startUp = () => { game.player.movingUp = true; };
     const stopUp = () => { game.player.movingUp = false; };
-    const startDown = () => { game.player.movingDown = true; };
-    const stopDown = () => { game.player.movingDown = false; };
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 
     // ------------------------------------------------------------------------------------------- //
@@ -43,7 +41,7 @@ function playGame(canvas) {
     const game = makeGame();
     const drawer = makeDrawer(canvas);
     const engine = makeEngine(render, update, interval);
-    makeController(resize, startLeft, stopLeft, startRight, stopRight, startUp, stopUp, startDown, stopDown);
+    makeController(resize, startLeft, stopLeft, startRight, stopRight, startUp, stopUp);
 
     // ------------------------------------------------------------------------------------------- //
     //     Arrange entities with given coordinates                                                 //
