@@ -6,14 +6,20 @@ function makeDrawer(canvasRef) {
         context.fillRect(0, 0, canvasRef.width, canvasRef.height);
     }
 
-    const renderPlayer = (x, y) => {
+    const renderPlayer = (x, y, width, height) => {
+        context.fillStyle = "#999";
+        context.fillRect(x, y, width, height);
+    }
+
+    const renderObstacle = (x, y, width, height) => {
         context.fillStyle = "#555";
-        context.fillRect(x, y, 50, 50);
+        context.fillRect(x, y, width, height);
     }
 
     return {
         renderPlayer,
-        renderBackground
+        renderBackground,
+        renderObstacle
     }
 }
 
