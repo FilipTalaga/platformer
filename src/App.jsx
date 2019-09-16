@@ -31,11 +31,57 @@ function playGame(canvas) {
         drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);
     }
 
+    const isCollision = (player, obstacle) => {
+        const vertical = player.y + player.height > obstacle.y && player.y < obstacle.y + obstacle.height;
+        const horizontal = player.x + player.width > obstacle.x && player.x < obstacle.x + obstacle.width;
+
+        return vertical && horizontal;
+    }
+
     const update = () => {
-        if (game.player.movingLeft) { game.player.x -= interval / 2; }
-        if (game.player.movingRight) { game.player.x += interval / 2; }
-        if (game.player.movingUp) { game.player.y -= interval / 2; }
-        if (game.player.movingDown) { game.player.y += interval / 2; }
+        if (game.player.movingLeft) {
+            const futurePlayer = { ...game.player };
+            futurePlayer.x -= interval / 2;
+
+            if (isCollision(futurePlayer, game.obstacle)) {
+                game.player.x = game.obstacle.x + game.obstacle.width;
+            } else {
+                game.player.x = futurePlayer.x;
+            }
+        }
+
+        if (game.player.movingRight) {
+            const futurePlayer = { ...game.player };
+            futurePlayer.x += interval / 2;
+
+            if (isCollision(futurePlayer, game.obstacle)) {
+                game.player.x = game.obstacle.x - game.player.width;
+            } else {
+                game.player.x = futurePlayer.x;
+            }
+        }
+
+        if (game.player.movingUp) {
+            const futurePlayer = { ...game.player };
+            futurePlayer.y -= interval / 2;
+
+            if (isCollision(futurePlayer, game.obstacle)) {
+                game.player.y = game.obstacle.y + game.obstacle.height;
+            } else {
+                game.player.y = futurePlayer.y;
+            }
+        }
+
+        if (game.player.movingDown) {
+            const futurePlayer = { ...game.player };
+            futurePlayer.y += interval / 2;
+
+            if (isCollision(futurePlayer, game.obstacle)) {
+                game.player.y = game.obstacle.y - game.player.height;
+            } else {
+                game.player.y = futurePlayer.y;
+            }
+        }
     }
 
     // ------------------------------------------------------------------------------------------- //
