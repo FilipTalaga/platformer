@@ -18,11 +18,15 @@ function makeGame() {
     };
 
     const obstacles = [
-        { x: 0, y: 0, width: 500, height: 30, },
-        { x: 0, y: 0, width: 30, height: 500, },
-        { x: 0, y: 0, width: 100, height: 30, },
-        { x: 0, y: 0, width: 100, height: 30, },
-        { x: 0, y: 0, width: 100, height: 30, },
+        { x: 0, y: 0, width: 500, height: 30, }, // Floor
+        { x: 0, y: 0, width: 30, height: 500, }, // Wall
+        { x: 0, y: 0, width: 100, height: 30, }, // Step 1
+        { x: 0, y: 0, width: 100, height: 30, }, // Step 2
+        { x: 0, y: 0, width: 100, height: 30, }, // Step 3
+        { x: 0, y: 0, width: 100, height: 30, }, // Step 4
+        { x: 0, y: 0, width: 0, height: 30, }, // Bottom
+        { x: 0, y: 0, width: 30, height: 0, }, // Left
+        { x: 0, y: 0, width: 30, height: 0, }, // Right
     ];
 
     const updatePlayerPosition = distance => {

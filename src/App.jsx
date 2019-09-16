@@ -70,6 +70,25 @@ function playGame(canvas) {
     game.obstacles[4].x = game.obstacles[0].x + 300;
     game.obstacles[4].y = game.obstacles[1].y + 400;
 
+    // Step 4
+    game.obstacles[5].x = game.obstacles[0].x - 200;
+    game.obstacles[5].y = game.obstacles[1].y + 630;
+
+    // Bottom
+    game.obstacles[6].x = 0;
+    game.obstacles[6].y = canvas.height - game.obstacles[5].height;
+    game.obstacles[6].width = canvas.width;
+
+    // Left
+    game.obstacles[7].x = 0;
+    game.obstacles[7].y = 0;
+    game.obstacles[7].height = canvas.height;
+
+    // Right
+    game.obstacles[8].x = canvas.width - game.obstacles[7].width;
+    game.obstacles[8].y = 0;
+    game.obstacles[8].height = canvas.height;
+
     // Player
     game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);
     game.player.y = Math.floor(canvas.height * 0.3);
