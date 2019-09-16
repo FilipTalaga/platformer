@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import makeDrawer from './app/drawer';
 import makeGame from './app/game';
 import makeController from './app/controller';
-import makeEngine from './app/engine';
+import makeEngine from './app/engine/engine';
 
 const interval = 8;
 
