@@ -2,7 +2,7 @@ import makeWebWorker from '../../workers/webWorker';
 import commands from './commands';
 import engineWorker from './worker';
 
-function makeEngine(render, update, interval) {
+function makeEngine(render, update, interval, gameLog) {
     let renderRef = null;
     const webWorker = makeWebWorker(engineWorker, commands);
 
@@ -10,20 +10,23 @@ function makeEngine(render, update, interval) {
     const debug = {
         handler: null,
         fps: 0,
-        tps: 0,
+        tps: {
+            current: 0,
+            expected: Math.floor(1000 / interval),
+        },
     };
 
     /* --- DEBUG --- DEBUG --- DEBUG --- */
     const logDebug = () => {
-        console.clear();
-        console.log(`FPS: ${debug.fps}\nTPS: ${debug.tps} (expected ${Math.floor(1000 / interval)})`);
-        debug.fps = debug.tps = 0;
+        const { handler, ...logDebug } = debug;
+        gameLog(logDebug);
+        debug.fps = debug.tps.current = 0;
     }
 
     const updateTick = e => {
         if (e.data === commands.UPDATE) {
             update();
-            debug.tps += 1; /* --- DEBUG --- DEBUG --- DEBUG --- */
+            debug.tps.current += 1; /* --- DEBUG --- DEBUG --- DEBUG --- */
         }
     }
 

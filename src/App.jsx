@@ -1,12 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import makeDrawer from './app/drawer';
 import makeGame from './app/game';
 import makeController from './app/controller';
 import makeEngine from './app/engine/engine';
+import DebugLabel from './DebugLabel';
 
 const interval = 8;
 
-function playGame(canvas) {
+function playGame(canvas, gameLog) {
     // ------------------------------------------------------------------------------------------- //
     //     User input functions for controller                                                     //
     // ------------------------------------------------------------------------------------------- //
@@ -42,7 +43,7 @@ function playGame(canvas) {
 
     const game = makeGame(1000 / interval);
     const drawer = makeDrawer(canvas);
-    const engine = makeEngine(render, update, interval);
+    const engine = makeEngine(render, update, interval, gameLog);
     makeController(resize, startLeft, stopLeft, startRight, stopRight, startJump, stopJump);
 
     // ------------------------------------------------------------------------------------------- //
@@ -102,10 +103,16 @@ function playGame(canvas) {
 
 function App() {
     const canvasRef = useRef();
+    const [debugLabel, setDebugLabel] = useState();
 
-    useEffect(() => playGame(canvasRef.current));
+    useEffect(() => playGame(canvasRef.current, setDebugLabel), []);
 
-    return <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
+    return (
+        <>
+            <DebugLabel data={debugLabel} />
+            <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />
+        </>
+    );
 }
 
 export default App;

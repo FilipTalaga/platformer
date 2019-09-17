@@ -21,3 +21,16 @@ body {
     justify-content: center;
     background-color: #111;
 }
+
+#label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 20px;
+    color: white;
+}
+
+#label * {
+    margin: 0;
+}
