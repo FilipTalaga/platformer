@@ -2,7 +2,7 @@ function makeDrawer(canvasRef) {
     const context = canvasRef.getContext('2d');
 
     const renderBackground = () => {
-        context.fillStyle = "rgb(238, 238, 238, 0.2)";
+        context.fillStyle = "#eee";
         context.fillRect(0, 0, canvasRef.width, canvasRef.height);
     }
 
