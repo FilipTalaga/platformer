@@ -14,8 +14,8 @@ function makeDrawer(canvasRef) {
         drawRect(context, x, y, width, height);
     }
 
-    const renderObstacle = (x, y, width, height) => {
-        context.fillStyle = "#222";
+    const renderObstacle = (x, y, width, height, color = "#222") => {
+        context.fillStyle = color;
         drawRect(context, x, y, width, height);
     }
 

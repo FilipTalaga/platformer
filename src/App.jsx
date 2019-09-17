@@ -28,7 +28,7 @@ function playGame(canvas, gameLog) {
         drawer.renderBackground();
         drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);
         game.obstacles.forEach(obstacle => {
-            drawer.renderObstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+            drawer.renderObstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height, obstacle.color);
         });
     }
 
@@ -88,6 +88,14 @@ function playGame(canvas, gameLog) {
     game.obstacles[8].x = canvas.width - game.obstacles[7].width;
     game.obstacles[8].y = 0;
     game.obstacles[8].height = canvas.height;
+
+    // Launcher 1
+    game.obstacles[9].x = 150;
+    game.obstacles[9].y = canvas.height - game.obstacles[9].height;
+
+    // Launcher 2
+    game.obstacles[10].x = canvas.width - game.obstacles[10].width - 150;
+    game.obstacles[10].y = canvas.height - game.obstacles[10].height;
 
     // Player
     game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);

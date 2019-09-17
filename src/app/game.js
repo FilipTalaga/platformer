@@ -35,6 +35,8 @@ function makeGame(tps) {
         { x: 0, y: 0, width: 0, height: 30, }, // Bottom
         { x: 0, y: 0, width: 30, height: 0, }, // Left
         { x: 0, y: 0, width: 30, height: 0, }, // Right
+        { x: 0, y: 0, width: 200, height: 30, color: "#3ff", bounce: true }, // Launcher 1
+        { x: 0, y: 0, width: 200, height: 30, color: "#3ff", bounce: true }, // Launcher 2
     ];
 
     const updatePlayerPosition = () => {
