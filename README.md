@@ -1,5 +1,7 @@
 This repo contains simple implementation of canvas based platformer game.
 
+![picture](https://raw.githubusercontent.com/Rementh/platformer/assets/platformer.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
