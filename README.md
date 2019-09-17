@@ -1,4 +1,10 @@
-This repo contains simple implementation of canvas based platformer game.
+## Platformer
+
+This repo contains basic implementation of canvas based platformer, with own game physics engine.
+
+### Demo
+
+https://platformer-app.web.app/
 
 ![picture](https://raw.githubusercontent.com/Rementh/platformer/assets/platformer.png)
 
