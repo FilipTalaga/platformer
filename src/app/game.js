@@ -1,10 +1,15 @@
+/* World parameters in SI units */
+const xVelocity = 500;   // horizontal velocity [px/s]
+const jumpForce = -1200; // vertical negative velocity [px/s]
+const gravity = 3800;    // vertical acceleration [px/s^2]
+
 function willCollide(player, obstacle) {
     const vertically = player.y + player.height > obstacle.y && player.y < obstacle.y + obstacle.height;
     const horizontally = player.x + player.width > obstacle.x && player.x < obstacle.x + obstacle.width;
     return vertically && horizontally;
 }
 
-function makeGame() {
+function makeGame(tps) {
     const player = {
         x: 0,
         y: 0,
@@ -14,7 +19,10 @@ function makeGame() {
         movingRight: false,
         startJump: false,
         jumping: false,
-        velocity: 0,
+        xDistance: xVelocity / tps,
+        jumpDistance: jumpForce / tps,
+        yDistanceGain: gravity / (tps * tps),
+        yDistance: 0,
     };
 
     const obstacles = [
@@ -29,10 +37,10 @@ function makeGame() {
         { x: 0, y: 0, width: 30, height: 0, }, // Right
     ];
 
-    const updatePlayerPosition = distance => {
+    const updatePlayerPosition = () => {
         /* Move left if left pressed */
         if (player.movingLeft) {
-            const futurePlayer = { ...player, x: player.x - distance };
+            const futurePlayer = { ...player, x: player.x - player.xDistance };
 
             let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
 
@@ -46,7 +54,7 @@ function makeGame() {
 
         /* Move right if right pressed */
         if (player.movingRight) {
-            const futurePlayer = { ...player, x: player.x + distance };
+            const futurePlayer = { ...player, x: player.x + player.xDistance };
 
             let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
 
@@ -60,25 +68,23 @@ function makeGame() {
 
         /* Move vertically, jump on up pressed, fall with gravity */
         if (player.startJump && !player.jumping) {
-            player.velocity = -(distance * 10);
+            player.yDistance = player.jumpDistance;
         }
-        const isPositive = player.velocity >= 0;
-        const roundedFallDistance = Math.floor(player.velocity / 5);
-        const futurePlayer = { ...player, y: player.y + (roundedFallDistance !== 0 ? roundedFallDistance : 1) };
-        player.velocity += 1;
+        const futurePlayer = { ...player, y: player.y + player.yDistance };
+        player.yDistance += player.yDistanceGain;
         player.jumping = true;
 
         let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
 
         while (collisions.length > 0) {
-            if (isPositive) {
+            if (player.yDistance >= 0) {
                 futurePlayer.y = collisions[0].y - player.height;
                 player.jumping = false;
             } else {
                 futurePlayer.y = collisions[0].y + collisions[0].height;
             }
 
-            player.velocity = 0;
+            player.yDistance = 0;
             collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
         }
 

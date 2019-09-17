@@ -40,7 +40,7 @@ function playGame(canvas) {
     //     Elements for handling game logic, user input, canvas drawing and render/update loop     //
     // ------------------------------------------------------------------------------------------- //
 
-    const game = makeGame();
+    const game = makeGame(1000 / interval);
     const drawer = makeDrawer(canvas);
     const engine = makeEngine(render, update, interval);
     makeController(resize, startLeft, stopLeft, startRight, stopRight, startJump, stopJump);
