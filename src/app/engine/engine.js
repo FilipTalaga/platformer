@@ -13,23 +13,23 @@ function makeEngine(render, update, interval) {
         tps: 0,
     };
 
-    /* DEBUG */
+    /* --- DEBUG --- DEBUG --- DEBUG --- */
     const logDebug = () => {
         console.clear();
-        console.log(`FPS: ${debug.fps}\nTPS: ${debug.tps}`);
+        console.log(`FPS: ${debug.fps}\nTPS: ${debug.tps} (expected ${Math.floor(1000 / interval)})`);
         debug.fps = debug.tps = 0;
     }
 
     const updateTick = e => {
         if (e.data === commands.UPDATE) {
             update();
-            debug.tps += 1; // DEBUG
+            debug.tps += 1; /* --- DEBUG --- DEBUG --- DEBUG --- */
         }
     }
 
     const renderTick = () => {
         render();
-        debug.fps += 1; // DEBUG
+        debug.fps += 1; /* --- DEBUG --- DEBUG --- DEBUG --- */
         renderRef = requestAnimationFrame(renderTick);
     }
 
@@ -39,12 +39,12 @@ function makeEngine(render, update, interval) {
         start: () => {
             webWorker.postMessage(`${commands.START}${commands.SEPARATOR}${interval}`);
             requestAnimationFrame(renderTick);
-            debug.handler = setInterval(logDebug, 1000); // DEBUG
+            debug.handler = setInterval(logDebug, 1000); /* --- DEBUG --- DEBUG --- DEBUG --- */
         },
         stop: () => {
             cancelAnimationFrame(renderRef);
             webWorker.postMessage(commands.STOP);
-            clearInterval(debug.handler); // DEBUG
+            clearInterval(debug.handler); /* --- DEBUG --- DEBUG --- DEBUG --- */
         },
     };
 }
