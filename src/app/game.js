@@ -35,20 +35,25 @@ function makeGame(tps) {
         { x: 0, y: 0, width: 0, height: 30, }, // Bottom
         { x: 0, y: 0, width: 30, height: 0, }, // Left
         { x: 0, y: 0, width: 30, height: 0, }, // Right
-        { x: 0, y: 0, width: 200, height: 30, color: "#3ff", bounce: true }, // Launcher 1
-        { x: 0, y: 0, width: 200, height: 30, color: "#3ff", bounce: true }, // Launcher 2
+        { x: 0, y: 0, width: 200, height: 30, color: "#3ff" }, // Launcher 1
+        { x: 0, y: 0, width: 200, height: 30, color: "rgba(51, 255, 255, 0.1)", isEffect: true }, // Launcher 1 effect
+        { x: 0, y: 0, width: 200, height: 30, color: "#3ff" }, // Launcher 2
+        { x: 0, y: 0, width: 200, height: 30, color: "rgba(51, 255, 255, 0.1)", isEffect: true }, // Launcher 2 effect
     ];
 
     const updatePlayerPosition = () => {
+        const solids = obstacles.filter(item => !item.isEffect);
+        const effects = obstacles.filter(item => item.isEffect);
+
         /* Move left if left pressed */
         if (player.movingLeft) {
             const futurePlayer = { ...player, x: player.x - player.xDistance };
 
-            let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+            let collisions = solids.filter(solid => willCollide(futurePlayer, solid));
 
             while (collisions.length > 0) {
                 futurePlayer.x = collisions[0].x + collisions[0].width;
-                collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+                collisions = solids.filter(solid => willCollide(futurePlayer, solid));
             }
 
             player.x = futurePlayer.x;
@@ -58,11 +63,11 @@ function makeGame(tps) {
         if (player.movingRight) {
             const futurePlayer = { ...player, x: player.x + player.xDistance };
 
-            let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+            let collisions = solids.filter(solid => willCollide(futurePlayer, solid));
 
             while (collisions.length > 0) {
                 futurePlayer.x = collisions[0].x - player.width;
-                collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+                collisions = solids.filter(solid => willCollide(futurePlayer, solid));
             }
 
             player.x = futurePlayer.x;
@@ -70,13 +75,14 @@ function makeGame(tps) {
 
         /* Move vertically, jump on up pressed, fall with gravity */
         if (player.startJump && !player.jumping) {
-            player.yDistance = player.jumpDistance;
+            const collideWithEffect = effects.some(effect => willCollide(player, effect));
+            player.yDistance = collideWithEffect ? player.jumpDistance * 2 : player.jumpDistance;
         }
         const futurePlayer = { ...player, y: player.y + player.yDistance };
         player.yDistance += player.yDistanceGain;
         player.jumping = true;
 
-        let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+        let collisions = solids.filter(solid => willCollide(futurePlayer, solid));
 
         while (collisions.length > 0) {
             if (player.yDistance >= 0) {
@@ -87,7 +93,7 @@ function makeGame(tps) {
             }
 
             player.yDistance = 0;
-            collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
+            collisions = solids.filter(solid => willCollide(futurePlayer, solid));
         }
 
         player.y = futurePlayer.y;

@@ -93,9 +93,17 @@ function playGame(canvas, gameLog) {
     game.obstacles[9].x = 150;
     game.obstacles[9].y = canvas.height - game.obstacles[9].height;
 
+    // Launcher 1 effect
+    game.obstacles[10].x = 150;
+    game.obstacles[10].y = canvas.height - game.obstacles[10].height * 2;
+
     // Launcher 2
-    game.obstacles[10].x = canvas.width - game.obstacles[10].width - 150;
-    game.obstacles[10].y = canvas.height - game.obstacles[10].height;
+    game.obstacles[11].x = canvas.width - game.obstacles[11].width - 150;
+    game.obstacles[11].y = canvas.height - game.obstacles[11].height;
+
+    // Launcher 2 effect
+    game.obstacles[12].x = canvas.width - game.obstacles[12].width - 150;
+    game.obstacles[12].y = canvas.height - game.obstacles[12].height * 2;
 
     // Player
     game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);
