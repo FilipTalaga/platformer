@@ -19,10 +19,24 @@ function makeDrawer(canvasRef) {
         drawRect(context, x, y, width, height);
     }
 
+    const renderGradient = (x, y, width, height, color) => {
+        // Create gradient
+        const gradient = context.createLinearGradient(0, y, 0, y + height);
+
+        // Add colors
+        gradient.addColorStop(0, "#fff0");
+        gradient.addColorStop(1, color);
+
+        // Fill with gradient
+        context.fillStyle = gradient;
+        drawRect(context, x, y, width, height);
+    }
+
     return {
         renderBackground,
         renderPlayer,
-        renderObstacle
+        renderObstacle,
+        renderGradient,
     }
 }
 

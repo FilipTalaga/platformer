@@ -35,10 +35,8 @@ function makeGame(tps) {
         { x: 0, y: 0, width: 0, height: 30, }, // Bottom
         { x: 0, y: 0, width: 30, height: 0, }, // Left
         { x: 0, y: 0, width: 30, height: 0, }, // Right
-        { x: 0, y: 0, width: 200, height: 30, color: "#3ff" }, // Launcher 1
-        { x: 0, y: 0, width: 200, height: 30, color: "rgba(51, 255, 255, 0.1)", isEffect: true }, // Launcher 1 effect
-        { x: 0, y: 0, width: 200, height: 30, color: "#3ff" }, // Launcher 2
-        { x: 0, y: 0, width: 200, height: 30, color: "rgba(51, 255, 255, 0.1)", isEffect: true }, // Launcher 2 effect
+        { x: 0, y: 0, width: 200, height: 50, color: "#3ff", isEffect: true }, // Launcher 1 effect
+        { x: 0, y: 0, width: 200, height: 50, color: "#3ff", isEffect: true }, // Launcher 2 effect
     ];
 
     const updatePlayerPosition = () => {
