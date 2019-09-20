@@ -12,12 +12,12 @@ function playGame(canvas, gameLog) {
     //     User input functions for controller                                                     //
     // ------------------------------------------------------------------------------------------- //
 
-    const startLeft = () => { game.player.movingLeft = true; };
-    const stopLeft = () => { game.player.movingLeft = false; };
-    const startRight = () => { game.player.movingRight = true; };
-    const stopRight = () => { game.player.movingRight = false; };
-    const startJump = () => { game.player.startJump = true; };
-    const stopJump = () => { game.player.startJump = false; };
+    const startLeft = () => { game.state.movingLeft = true; };
+    const stopLeft = () => { game.state.movingLeft = false; };
+    const startRight = () => { game.state.movingRight = true; };
+    const stopRight = () => { game.state.movingRight = false; };
+    const startJump = () => { game.state.startJump = true; };
+    const stopJump = () => { game.state.startJump = false; };
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
 
     // ------------------------------------------------------------------------------------------- //
