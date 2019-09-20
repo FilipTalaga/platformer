@@ -23,12 +23,12 @@ const DebugLabel = ({ data }) => {
             }
         };
 
-        window.addEventListener("keydown", onKeydown);
-        window.addEventListener("keyup", onKeyup);
+        window.addEventListener('keydown', onKeydown);
+        window.addEventListener('keyup', onKeyup);
 
         return () => {
-            window.removeEventListener("keydown", onKeydown);
-            window.removeEventListener("keyup", onKeyup);
+            window.removeEventListener('keydown', onKeydown);
+            window.removeEventListener('keyup', onKeyup);
         };
     }, []);
 
@@ -38,6 +38,6 @@ const DebugLabel = ({ data }) => {
             <p>TPS: {data.tps.current} (expected {data.tps.expected})</p>
         </div>
     );
-}
+};
 
 export default DebugLabel;

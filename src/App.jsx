@@ -18,7 +18,7 @@ function playGame(canvas, gameLog) {
     const stopRight = () => { game.player.movingRight = false; };
     const startJump = () => { game.player.startJump = true; };
     const stopJump = () => { game.player.startJump = false; };
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
 
     // ------------------------------------------------------------------------------------------- //
     //     Render and update functions that will be executed periodically by engine                //
@@ -33,12 +33,12 @@ function playGame(canvas, gameLog) {
         game.effects.forEach(effect => {
             drawer.renderGradient(effect.x, effect.y, effect.width, effect.height, effect.color);
         });
-    }
+    };
 
     const update = () => {
         const distance = interval / 2;
         game.updatePlayerPosition(distance);
-    }
+    };
 
     // ------------------------------------------------------------------------------------------- //
     //     Elements for handling game logic, user input, canvas drawing and render/update loop     //

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import makeWebWorker from '../../workers/webWorker';
 import commands from './commands';
 import engineWorker from './worker';
@@ -21,20 +22,20 @@ function makeEngine(render, update, interval, gameLog) {
         const { handler, ...logDebug } = debug;
         gameLog(logDebug);
         debug.fps = debug.tps.current = 0;
-    }
+    };
 
     const updateTick = e => {
         if (e.data === commands.UPDATE) {
             update();
             debug.tps.current += 1; /* --- DEBUG --- DEBUG --- DEBUG --- */
         }
-    }
+    };
 
     const renderTick = () => {
         render();
         debug.fps += 1; /* --- DEBUG --- DEBUG --- DEBUG --- */
         renderRef = requestAnimationFrame(renderTick);
-    }
+    };
 
     webWorker.onmessage = updateTick;
 

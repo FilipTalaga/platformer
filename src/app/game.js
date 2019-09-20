@@ -10,19 +10,24 @@ function willCollide(player, obstacle) {
 }
 
 function makeGame(tps) {
+    /* World parameters per tick */
+    const xDistance = xVelocity / tps;   // horizontal velocity [px/s]
+    const jumpDistance = jumpForce / tps; // vertical negative velocity [px/s]
+    const yDistanceGain = gravity / (tps * tps);    // vertical acceleration [px/s^2]
+
     const player = {
         x: 0,
         y: 0,
         width: 50,
         height: 50,
+        yDistance: 0,
+    };
+
+    const state = {
         movingLeft: false,
         movingRight: false,
         startJump: false,
         jumping: false,
-        xDistance: xVelocity / tps,
-        jumpDistance: jumpForce / tps,
-        yDistanceGain: gravity / (tps * tps),
-        yDistance: 0,
     };
 
     const obstacles = [
@@ -38,14 +43,14 @@ function makeGame(tps) {
     ];
 
     const effects = [
-        { x: 0, y: 0, width: 200, height: 50, color: "#3ff" }, // Launcher 1 effect
-        { x: 0, y: 0, width: 200, height: 50, color: "#3ff" }, // Launcher 2 effect
+        { x: 0, y: 0, width: 200, height: 50, color: '#3ff' }, // Launcher 1 effect
+        { x: 0, y: 0, width: 200, height: 50, color: '#3ff' }, // Launcher 2 effect
     ];
 
     const updatePlayerPosition = () => {
         /* Move left if left pressed */
         if (player.movingLeft) {
-            const futurePlayer = { ...player, x: player.x - player.xDistance };
+            const futurePlayer = { ...player, x: player.x - xDistance };
 
             let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
 
@@ -59,7 +64,7 @@ function makeGame(tps) {
 
         /* Move right if right pressed */
         if (player.movingRight) {
-            const futurePlayer = { ...player, x: player.x + player.xDistance };
+            const futurePlayer = { ...player, x: player.x + xDistance };
 
             let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
 
@@ -74,10 +79,10 @@ function makeGame(tps) {
         /* Move vertically, jump on up pressed, fall with gravity */
         if (player.startJump && !player.jumping) {
             const collideWithEffect = effects.some(effect => willCollide(player, effect));
-            player.yDistance = collideWithEffect ? player.jumpDistance * 2 : player.jumpDistance;
+            player.yDistance = collideWithEffect ? jumpDistance * 2 : jumpDistance;
         }
         const futurePlayer = { ...player, y: player.y + player.yDistance };
-        player.yDistance += player.yDistanceGain;
+        player.yDistance += yDistanceGain;
         player.jumping = true;
 
         let collisions = obstacles.filter(obstacle => willCollide(futurePlayer, obstacle));
@@ -95,14 +100,15 @@ function makeGame(tps) {
         }
 
         player.y = futurePlayer.y;
-    }
+    };
 
     return {
         player,
+        state,
         obstacles,
         effects,
         updatePlayerPosition,
-    }
+    };
 }
 
 export default makeGame;

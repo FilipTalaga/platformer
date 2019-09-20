@@ -19,7 +19,7 @@ function engineWorker() {
         if (command === commands.STOP) {
             clearInterval(updateHandler);
         }
-    }
+    };
 }
 
 export default engineWorker;
