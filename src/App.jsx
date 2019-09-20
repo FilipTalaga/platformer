@@ -27,10 +27,10 @@ function playGame(canvas, gameLog) {
     const render = () => {
         drawer.renderBackground();
         drawer.renderPlayer(game.player.x, game.player.y, game.player.width, game.player.height);
-        game.obstacles.filter(obstacle => !obstacle.isEffect).forEach(solid => {
+        game.obstacles.forEach(solid => {
             drawer.renderObstacle(solid.x, solid.y, solid.width, solid.height, solid.color);
         });
-        game.obstacles.filter(obstacle => obstacle.isEffect).forEach(effect => {
+        game.effects.forEach(effect => {
             drawer.renderGradient(effect.x, effect.y, effect.width, effect.height, effect.color);
         });
     }
@@ -93,12 +93,12 @@ function playGame(canvas, gameLog) {
     game.obstacles[8].height = canvas.height;
 
     // Launcher 1 effect
-    game.obstacles[9].x = 150;
-    game.obstacles[9].y = canvas.height - game.obstacles[6].height - game.obstacles[9].height;
+    game.effects[0].x = 150;
+    game.effects[0].y = canvas.height - game.obstacles[6].height - game.effects[0].height;
 
     // Launcher 2 effect
-    game.obstacles[10].x = canvas.width - game.obstacles[10].width - 150;
-    game.obstacles[10].y = canvas.height - game.obstacles[6].height - game.obstacles[10].height;
+    game.effects[1].x = canvas.width - game.effects[1].width - 150;
+    game.effects[1].y = canvas.height - game.obstacles[6].height - game.effects[1].height;
 
     // Player
     game.player.x = Math.floor(canvas.width / 2 - game.player.width / 2);
