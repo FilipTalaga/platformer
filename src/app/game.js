@@ -1,6 +1,6 @@
 /* World parameters in SI units */
 const world = {
-    xVelocity: 500,   // horizontal velocity [px/s]
+    xVelocityMax: 500,   // horizontal velocity [px/s]
     jumpForce: -1200, // vertical negative velocity [px/s]
     gravity: 3800,    // vertical acceleration [px/s^2]
 };
@@ -11,18 +11,27 @@ function collides(player, obstacle) {
     return vertically && horizontally;
 }
 
+const checkCollisionAndUpdate = (obstacles, futurePlayer, update) => {
+    let collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
+    while (collisions.length > 0) {
+        update(collisions[0]);
+        collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
+    }
+};
+
 function makeGame(tps) {
     /* World parameters per tick */
-    const xVelocity = world.xVelocity / tps;   // horizontal velocity [px/s]
-    const jumpForce = world.jumpForce / tps; // vertical negative velocity [px/s]
-    const gravity = world.gravity / (tps * tps);    // vertical acceleration [px/s^2]
+    const xVelocityMax = world.xVelocityMax / tps;
+    const jumpForce = world.jumpForce / tps;
+    const gravity = world.gravity / (tps * tps);
 
     const player = {
         x: 0,
         y: 0,
         width: 50,
         height: 50,
-        yDistance: 0,
+        xVelocity: 0,
+        yVelocity: 0,
     };
 
     const state = {
@@ -50,57 +59,33 @@ function makeGame(tps) {
     ];
 
     const updatePlayerPosition = () => {
-        /* Move left if left pressed */
-        if (state.movingLeft) {
-            const futurePlayer = { ...player, x: player.x - xVelocity };
+        let futurePlayer = { ...player };
 
-            let collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
+        /* Horizontal velocity update */
+        player.xVelocity = (state.movingLeft && -xVelocityMax) + (state.movingRight && xVelocityMax);
 
-            while (collisions.length > 0) {
-                futurePlayer.x = collisions[0].x + collisions[0].width;
-                collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
-            }
+        /* Horizontal position update */
+        futurePlayer.x += player.xVelocity;
+        checkCollisionAndUpdate(obstacles, futurePlayer, entity => {
+            futurePlayer.x = player.xVelocity >= 0 ? entity.x - futurePlayer.width : entity.x + entity.width;
+        });
 
-            player.x = futurePlayer.x;
-        }
-
-        /* Move right if right pressed */
-        if (state.movingRight) {
-            const futurePlayer = { ...player, x: player.x + xVelocity };
-
-            let collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
-
-            while (collisions.length > 0) {
-                futurePlayer.x = collisions[0].x - player.width;
-                collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
-            }
-
-            player.x = futurePlayer.x;
-        }
-
-        /* Move vertically, jump on up pressed, fall with gravity */
+        /* Vertical velocity update */
+        player.yVelocity += gravity;
         if (state.startJump && !state.jumping) {
-            const collideWithEffect = effects.some(effect => collides(player, effect));
-            player.yDistance = collideWithEffect ? jumpForce * 2 : jumpForce;
+            player.yVelocity = effects.some(effect => collides(futurePlayer, effect)) ? jumpForce * 2 : jumpForce;
         }
-        const futurePlayer = { ...player, y: player.y + player.yDistance };
-        player.yDistance += gravity;
         state.jumping = true;
 
-        let collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
+        /* Vertical position update */
+        futurePlayer.y += player.yVelocity;
+        checkCollisionAndUpdate(obstacles, futurePlayer, entity => {
+            if (player.yVelocity >= 0) { state.jumping = false; }
+            futurePlayer.y = player.yVelocity >= 0 ? entity.y - futurePlayer.height : entity.y + entity.height;
+            player.yVelocity = 0;
+        });
 
-        while (collisions.length > 0) {
-            if (player.yDistance >= 0) {
-                futurePlayer.y = collisions[0].y - player.height;
-                state.jumping = false;
-            } else {
-                futurePlayer.y = collisions[0].y + collisions[0].height;
-            }
-
-            player.yDistance = 0;
-            collisions = obstacles.filter(obstacle => collides(futurePlayer, obstacle));
-        }
-
+        player.x = futurePlayer.x;
         player.y = futurePlayer.y;
     };
 

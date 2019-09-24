@@ -12,12 +12,9 @@ function playGame(canvas, gameLog) {
     //     User input functions for controller                                                     //
     // ------------------------------------------------------------------------------------------- //
 
-    const startLeft = () => { game.state.movingLeft = true; };
-    const stopLeft = () => { game.state.movingLeft = false; };
-    const startRight = () => { game.state.movingRight = true; };
-    const stopRight = () => { game.state.movingRight = false; };
-    const startJump = () => { game.state.startJump = true; };
-    const stopJump = () => { game.state.startJump = false; };
+    const updateLeft = state => { game.state.movingLeft = state; };
+    const updateRight = state => { game.state.movingRight = state; };
+    const updateJump = state => { game.state.startJump = state; };
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
 
     // ------------------------------------------------------------------------------------------- //
@@ -47,7 +44,7 @@ function playGame(canvas, gameLog) {
     const game = makeGame(1000 / interval);
     const drawer = makeDrawer(canvas);
     const engine = makeEngine(render, update, interval, gameLog);
-    makeController(resize, startLeft, stopLeft, startRight, stopRight, startJump, stopJump);
+    makeController(resize, updateLeft, updateRight, updateJump);
 
     // ------------------------------------------------------------------------------------------- //
     //     Arrange entities with given coordinates                                                 //
